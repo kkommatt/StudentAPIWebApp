@@ -29,7 +29,7 @@ namespace StudentAPIWebApp.Controllers
 
         // GET: Departments/Details/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> Details(int? id)
+        public async Task<ActionResult<Department>> Details(int? id)
         {
             if (id == null || _context.Departments == null)
             {
@@ -43,7 +43,7 @@ namespace StudentAPIWebApp.Controllers
                 return NotFound();
             }
 
-            return View(department);
+            return department;
         }
 
         // GET: Departments/Create
@@ -58,16 +58,13 @@ namespace StudentAPIWebApp.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("DepartmentName,Faculty")] Department department)
+
+        public async Task<ActionResult<Department>> Create([FromBody] Department department)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(department);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(department);
+            _context.Departments.Add(department);
+            await _context.SaveChangesAsync();
+
+            return Ok(department);
         }
         /*
         // GET: Departments/Edit/5
@@ -91,8 +88,7 @@ namespace StudentAPIWebApp.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPut("{id}")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,DepartmentName,Faculty")] Department department)
+        public async Task<ActionResult<Department>> Edit(int id, Department department)
         {
             if (id != department.Id)
             {
@@ -117,9 +113,9 @@ namespace StudentAPIWebApp.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                
             }
-            return View(department);
+            return Ok(department);
         }
         /*
         // GET: Departments/Delete/5
@@ -143,8 +139,7 @@ namespace StudentAPIWebApp.Controllers
         */
         // POST: Departments/Delete/5
         [HttpDelete("{id}")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<ActionResult<Department>> DeleteConfirmed(int id)
         {
             if (_context.Departments == null)
             {
@@ -157,7 +152,7 @@ namespace StudentAPIWebApp.Controllers
             }
             
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return Ok();
         }
 
         private bool DepartmentExists(int id)

@@ -10,13 +10,12 @@ namespace StudentAPIWebApp.Models
         }
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "Поле не може бути порожнім")]
+
         [Display(Name = "Назва кафедри")]
         public string DepartmentName { get; set; }
 
-        [Required(ErrorMessage = "Поле не може бути порожнім")]
         [Display(Name = "Факультет/Інститут")]
         public string Faculty { get; set; }
-        public virtual ICollection<Student> Students { get; set; }
+        public virtual ICollection<Student>? Students { get; set; }
     }
 }

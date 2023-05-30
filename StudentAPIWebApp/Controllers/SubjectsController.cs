@@ -29,7 +29,7 @@ namespace StudentAPIWebApp.Controllers
 
         // GET: Subjects/Details/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> Details(int? id)
+        public async Task<ActionResult<Subject>> Details(int? id)
         {
             if (id == null || _context.Subjects == null)
             {
@@ -43,7 +43,7 @@ namespace StudentAPIWebApp.Controllers
                 return NotFound();
             }
 
-            return View(subject);
+            return subject;
         }
         /*
         // GET: Subjects/Create
@@ -57,16 +57,15 @@ namespace StudentAPIWebApp.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,SubjectName")] Subject subject)
+        public async Task<ActionResult<Subject>> Create([FromBody] Subject subject)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(subject);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+              
             }
-            return View(subject);
+            return Ok(subject);
         }
         /*
         // GET: Subjects/Edit/5
@@ -90,8 +89,7 @@ namespace StudentAPIWebApp.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPut("{id}")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,SubjectName")] Subject subject)
+        public async Task<ActionResult<Subject>> Edit(int id, Subject subject)
         {
             if (id != subject.Id)
             {
@@ -116,9 +114,8 @@ namespace StudentAPIWebApp.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
             }
-            return View(subject);
+            return Ok(subject);
         }
 
         /*
@@ -143,8 +140,7 @@ namespace StudentAPIWebApp.Controllers
 
         // POST: Subjects/Delete/5
         [HttpDelete("{id}")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<ActionResult<Subject>> DeleteConfirmed(int id)
         {
             if (_context.Subjects == null)
             {
@@ -157,7 +153,7 @@ namespace StudentAPIWebApp.Controllers
             }
             
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return Ok();
         }
 
         private bool SubjectExists(int id)

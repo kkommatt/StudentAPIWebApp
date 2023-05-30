@@ -12,7 +12,6 @@ namespace StudentAPIWebApp.Models
         public int Id { get; set; }
 
 
-        [Required(ErrorMessage = "Поле не може бути порожнім")]
         [Display(Name = "Назва предмету")]
         public string SubjectName { get; set; }
 

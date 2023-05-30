@@ -24,13 +24,13 @@ namespace StudentAPIWebApp.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Grade>>> Index()
         {
-            var studentAPIContext = _context.Grades.Include(g => g.Student.LastName).Include(g => g.Subject.SubjectName);
+            var studentAPIContext = _context.Grades;
             return await studentAPIContext.ToListAsync();
         }
 
         // GET: Grades/Details/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> Details(int? id)
+        public async Task<ActionResult<Grade>> Details(int? id)
         {
             if (id == null || _context.Grades == null)
             {
@@ -38,15 +38,13 @@ namespace StudentAPIWebApp.Controllers
             }
 
             var grade = await _context.Grades
-                .Include(g => g.Student)
-                .Include(g => g.Subject)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (grade == null)
             {
                 return NotFound();
             }
 
-            return View(grade);
+            return grade;
         }
         /*
         // GET: Grades/Create
@@ -62,18 +60,16 @@ namespace StudentAPIWebApp.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,StudentId,SubjectId,GradeValue")] Grade grade)
+        public async Task<ActionResult<Grade>> Create([FromBody] Grade grade)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(grade);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
             }
             ViewData["StudentId"] = new SelectList(_context.Students, "Id", "FirstName", grade.StudentId);
             ViewData["SubjectId"] = new SelectList(_context.Subjects, "Id", "SubjectName", grade.SubjectId);
-            return View(grade);
+            return Ok(grade);
         }
         /*
         // GET: Grades/Edit/5
@@ -99,8 +95,7 @@ namespace StudentAPIWebApp.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPut("{id}")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,StudentId,SubjectId,GradeValue")] Grade grade)
+        public async Task<ActionResult<Grade>> Edit(int id, Grade grade)
         {
             if (id != grade.Id)
             {
@@ -125,11 +120,10 @@ namespace StudentAPIWebApp.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
             }
             ViewData["StudentId"] = new SelectList(_context.Students, "Id", "FirstName", grade.StudentId);
             ViewData["SubjectId"] = new SelectList(_context.Subjects, "Id", "SubjectName", grade.SubjectId);
-            return View(grade);
+            return Ok(grade);
         }
         /*
         // GET: Grades/Delete/5
@@ -155,8 +149,7 @@ namespace StudentAPIWebApp.Controllers
         */
         // POST: Grades/Delete/5
         [HttpDelete("{id}")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<ActionResult<Grade>> DeleteConfirmed(int id)
         {
             if (_context.Grades == null)
             {
@@ -169,7 +162,7 @@ namespace StudentAPIWebApp.Controllers
             }
             
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return Ok();
         }
 
         private bool GradeExists(int id)
