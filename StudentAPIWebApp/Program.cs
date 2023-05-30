@@ -8,13 +8,12 @@ namespace StudentAPIWebApp
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
-            builder.Services.AddDbContext<StudentAPIContext>(option => option.UseSqlServer(
- builder.Configuration.GetConnectionString("DefaultConnection")
- ));
-            // Add services to the container.
-
-            builder.Services.AddControllers();
+            builder.Services.AddRazorPages();
+            builder.Services.AddDbContext<StudentAPIContext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+            builder.Services.AddControllersWithViews().AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            });
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -29,7 +28,14 @@ namespace StudentAPIWebApp
             }
 
             app.UseHttpsRedirection();
+            app.UseStaticFiles();
 
+            app.UseRouting();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            }
+            );
             app.UseAuthorization();
 
 
