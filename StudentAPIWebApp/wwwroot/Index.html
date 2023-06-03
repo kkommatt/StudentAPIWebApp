@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Система обліку студентів</title>
+    <link rel="stylesheet" href="css/site.css" />
+</head>
+<body>
+    <h1>Система обліку студентів КНУ</h1>
+    <h3>Додати студента</h3>
+    <form action="javascript:void(0);" method="POST" onsubmit="Create()">
+        <input type="text" id="add-lastName" placeholder="Прізвище">
+        <input type="text" id="add-firstName" placeholder="Ім'я">
+        <input type="text" id="add-middleName" placeholder="По-батькові">
+        <input type="number" id="add-studentNumber" placeholder="Номер студентського">
+        <input type="number" id="add-course" placeholder="Курс">
+        <input type="text" id="add-departmentId" placeholder="Кафедра">
+        <input type="text" id="add-group" placeholder="Група">
+        <input type="text" id="add-specialty" placeholder="Спеціальність">
+        <input type="submit" value="Додати">
+    </form>
+
+    <div id="Edit">
+        <h3>Змінити</h3>
+        <form action="javascript:void(0);" onsubmit="Edit()">
+            <input type="hidden" id="edit-id" placeholder="Id">
+            <input type="text" id="edit-lastName" placeholder="Прізвище">
+            <input type="text" id="edit-firstName" placeholder="Ім'я">
+            <input type="text" id="edit-middleName" placeholder="По-батькові">
+            <input type="number" id="edit-studentNumber" placeholder="Номер студентського">
+            <input type="number" id="edit-course" placeholder="Курс">
+            <input type="text" id="edit-departmentId" placeholder="Кафедра">
+            <input type="text" id="edit-group" placeholder="Група">
+            <input type="text" id="edit-specialty" placeholder="Спеціальність">
+            <input type="submit" value="Зберегти">
+            <a onclick="closeInput()" aria-label="Close">&#10006;</a>
+        </form>
+    </div>
+
+    <p id="counter"></p>
+
+    <table>
+        <tr>
+            <th>Прізвище</th>
+            <th>Ім'я</th>
+            <th>По-батькові</th>
+            <th>Номер студентського</th>
+            <th>Курс</th>
+            <th>Кафедра</th>
+            <th>Група</th>
+            <th>Спеціальність</th>
+        </tr>
+        <tbody id="students"></tbody>
+    </table>
+
+    <script src="js/lab2.js" asp-append-version="true"></script>
+    <script type="text/javascript">
+        Index();
+    </script>
+</body>
+</html>

@@ -92,10 +92,10 @@ namespace StudentAPIWebApp.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult<Student>> Edit(int id, Student student)
         {
-            if (id != student.Id)
+            /*if (id != student.Id)
             {
                 return NotFound();
-            }
+            }*/
 
             if (ModelState.IsValid)
             {
